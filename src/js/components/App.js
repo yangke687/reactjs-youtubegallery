@@ -5,7 +5,7 @@ var AddForm = require('./AddForm.js');
 
 function getAppState(){
 	return {
-
+		videos: AppStore.getVideos()
 	}
 }
 
