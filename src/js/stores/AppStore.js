@@ -38,7 +38,7 @@ AppDispatcher.register(function(payload){
 			// store save
 			AppStore.saveVideo(action.video);
 			// api save
-			//AppAPI.saveVideo(action.video);
+			AppAPI.saveVideo(action.video);
 			// emit change
 			AppStore.emit(CHANGE_EVENT);
 	}
