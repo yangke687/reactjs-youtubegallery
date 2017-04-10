@@ -9,30 +9,34 @@ var CHANGE_EVENT = 'change';
 var _videos = [];
 
 var AppStore = assign({}, EventEmitter.prototype, {
-	emitChange: function(){
+	emitChange: function() {
 		this.emit(CHANGE_EVENT);
 	},
-	addChangeListener: function(callback){
+	addChangeListener: function(callback) {
 		this.on('change', callback);
 	},
-	removeChangeListener: function(callback){
+	removeChangeListener: function(callback) {
 		this.removeListener('change', callback);
 	},
-	saveVideo: function(video){
+	saveVideo: function(video) {
 		_videos.push(video);
 	},
-	getVideos: function(){
+	getVideos: function() {
 		return _videos;
 	},
-	setVideos: function(videos){
+	setVideos: function(videos) {
 		_videos = videos;
+	},
+	removeVideo: function(id) {
+		var index = _videos.findIndex(x => x.id === id);
+		_videos.splice(index, 1);
 	}
 });
 
-AppDispatcher.register(function(payload){
+AppDispatcher.register(function(payload) {
 	var action = payload.action;
 
-	switch(action.actionType){
+	switch (action.actionType) {
 		case AppConstants.SAVE_VIDEO:
 			console.log('saving video...');
 			// store save
@@ -47,6 +51,16 @@ AppDispatcher.register(function(payload){
 			console.log('recving videos...');
 			// store set videos
 			AppStore.setVideos(action.videos);
+			// emit change
+			AppStore.emit(CHANGE_EVENT);
+			//
+			break;
+		case AppConstants.REMOVE_VIDEO:
+			console.log('removing video...');
+			// store remove
+			AppStore.removeVideo(action.id);
+			// api remove
+			AppAPI.removeVideo(action.id);
 			// emit change
 			AppStore.emit(CHANGE_EVENT);
 			//

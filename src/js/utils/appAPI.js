@@ -2,15 +2,15 @@ var AppActions = require('../actions/AppActions');
 var firebase = require('firebase');
 
 module.exports = {
-	saveVideo: function(video){
+	saveVideo: function(video) {
 		this.firebaseRef = new firebase("https://ytgallery-b8e7b.firebaseio.com/");
 		this.firebaseRef.push(video);
 	},
-	getVideos: function(){
+	getVideos: function() {
 		this.firebaseRef = new firebase("https://ytgallery-b8e7b.firebaseio.com/");
-		this.firebaseRef.once("value",function(snapshot){
+		this.firebaseRef.once("value", function(snapshot) {
 			var videos = [];
-			snapshot.forEach(function(childSnapshot){
+			snapshot.forEach(function(childSnapshot) {
 				var video = {
 					id: childSnapshot.key(),
 					title: childSnapshot.val().title,
@@ -21,5 +21,9 @@ module.exports = {
 			});
 			AppActions.receiveVideos(videos);
 		});
+	},
+	removeVideo: function(id) {
+		this.firebaseRef = new firebase("https://ytgallery-b8e7b.firebaseio.com/" + id);
+		this.firebaseRef.remove();
 	}
 }
