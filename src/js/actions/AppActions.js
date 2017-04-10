@@ -7,6 +7,12 @@ var AppActions = {
 			actionType: AppConstants.SAVE_VIDEO,
 			video: video
 		});
+	},
+	receiveVideos: function(videos){
+		AppDispatcher.handleViewAction({
+			actionType: AppConstants.RECV_VIDEOS,
+			videos: videos
+		});
 	}
 }
 

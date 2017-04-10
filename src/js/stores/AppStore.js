@@ -41,6 +41,17 @@ AppDispatcher.register(function(payload){
 			AppAPI.saveVideo(action.video);
 			// emit change
 			AppStore.emit(CHANGE_EVENT);
+			//
+			break;
+		case AppConstants.RECV_VIDEOS:
+			console.log('recving videos...');
+			// store set videos
+			AppStore.setVideos(action.videos);
+			// emit change
+			AppStore.emit(CHANGE_EVENT);
+			//
+			break;
+
 	}
 
 	return true;
